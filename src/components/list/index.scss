@@ -1,5 +1,6 @@
 .drag-list {
   position: relative;
+  overflow: hidden;
 
   .drag-list-item {
     background-color: pink;
