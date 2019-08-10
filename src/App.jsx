@@ -46,9 +46,14 @@ class App extends Component {
 				<DragList
 					data={this.state.data}
 					style={{
-						width: "300px",
 						border: "5px solid skyblue",
-						padding: "20px"
+						padding: "20px",
+						borderRadius: "5px"
+					}}
+					itemStyle={{
+						background: "pink",
+						borderRadius: "5px",
+						boxShadow: "0px 3px 5px rgba(0,0,0,0.3)"
 					}}
 					spacing={20}
 					onSorted={this.handleSorted}

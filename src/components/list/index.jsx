@@ -122,8 +122,15 @@ export class DragListItem extends Component {
       Array.prototype.forEach.call(brotherDom, (item) => {
         item.classList.remove("move-up", "move-down", "animate");
       })
+      // 如果数组列表被重新排序了，就进行事件代理，触发onSorted事件
+      if (this.state.indexStep !== 0 && this.props.parent.props.onSorted) {
+        try {
+          this.props.parent.props.onSorted(this.props.parent.state.data);
+        } catch {
+          throw new Error("<DragList /> props 'onSorted' has an error, please check it out");
+        }
+      }
     }
-    // TODO: 如果数组数据更新了，就进行事件代理
   }
 
   render() {
@@ -134,7 +141,8 @@ export class DragListItem extends Component {
         style={{
           margin: `${this.props.spacing ? this.props.spacing : 0}px 0px`,
           top: this.state.top,
-          zIndex: this.zIndex
+          zIndex: this.zIndex,
+          ...this.props.parent.props.itemStyle
         }}
         onMouseDown={this.handleMouseDown.bind(this)}
         onMouseUp={this.handleDragOver.bind(this)}
@@ -144,7 +152,6 @@ export class DragListItem extends Component {
         <div className="item-content">
           {this.props.data}
         </div>
-        {/* <div className="drag-handle"></div> */}
       </div>
     )
   }

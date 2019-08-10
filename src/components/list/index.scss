@@ -3,11 +3,14 @@
   overflow: hidden;
 
   .drag-list-item {
-    background-color: pink;
     display: flex;
     justify-content: space-between;
     position: relative;
-    box-shadow: 0 0 5px rgba($color: gray, $alpha: 0.5);
+
+    &:hover {
+      transition: transform .3s ease;
+      transform: scale(1.05);
+    }
 
     .item-content {
       padding: 10px;
