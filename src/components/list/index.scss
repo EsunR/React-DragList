@@ -1,0 +1,25 @@
+.drag-list {
+  position: relative;
+
+  .drag-list-item {
+    background-color: pink;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 0 5px rgba($color: gray, $alpha: 0.5);
+
+    .item-content {
+      padding: 10px;
+    }
+
+    .drag-handle {
+      width: 50px;
+      background-color: skyblue;
+      cursor: move;
+    }
+  }
+
+  .drag-list-item-move { 
+    
+  }
+}
