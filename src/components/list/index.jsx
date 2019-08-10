@@ -19,6 +19,7 @@ export class DragListItem extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // 检测是否触发动画
     // 如果检测出经过了一个div就开始变动 trowDomList
     if (this.state.indexStep !== prevState.indexStep) {
       let throwingIndex = this.nextIndex; // 经过的dom索引
@@ -121,8 +122,8 @@ export class DragListItem extends Component {
       Array.prototype.forEach.call(brotherDom, (item) => {
         item.classList.remove("move-up", "move-down", "animate");
       })
-      this.props.parent.props.onSorted(this.props.parent.state.data);
     }
+    // TODO: 如果数组数据更新了，就进行事件代理
   }
 
   render() {

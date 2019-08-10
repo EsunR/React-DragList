@@ -19,3 +19,4 @@
 | data    | 数据源           | Array  | 必填项 |
 | style   | 自定义的样式     | Object | {}     |
 | spacing | 拖拽项之间的空隙 | Number | 0      |
+| on
