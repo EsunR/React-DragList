@@ -1,21 +1,24 @@
-import React, { Component, ReactDOM } from 'react';
+import React, { Component } from 'react';
 import './index.scss'
 
 export class DragListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startY: 0,
-      moveY: 0,
-      indexStep: 0,
-      moving: false,
-      originTop: 0,
-      top: 0,
-      zIndex: 1
+      top: 0
     }
     this.itemDom = React.createRef();
+    this.moving = false;
+    this.startY = 0;
+    this.indexStep = 0;
+    this.originTop = 0;
+    this.zIndex = 1;
     this.stepLength = null;
     this.nextIndex = null;
+  }
+
+  _getDomStyleNum(dom, style) {
+    return parseInt(window.getComputedStyle(dom)[style])
   }
 
   componentDidMount() {
@@ -23,23 +26,20 @@ export class DragListItem extends Component {
     this.stepLength = this._getDomStyleNum(this.itemDom.current, "height") + this._getDomStyleNum(this.itemDom.current, "marginBottom");
   }
 
-  _getDomStyleNum(dom, style) {
-    return parseInt(window.getComputedStyle(dom)[style])
-  }
-
   handleMouseMove(e) {
-    if (this.state.moving) {
-      let moveY = e.clientY - this.state.startY;
-      // 当移动距离距超过下一个元素的高度的一半时，移动距离 +1
-      let indexStep = moveY > 0 ?
+    if (this.moving) {
+      // 缓存拖动距离
+      let moveY = e.clientY - this.startY;
+
+      // 当拖动距离距超过下一个元素的高度的一半时，移动距离 +1， 计算出下一个位置的索引值
+      this.indexStep = moveY > 0 ?
         Math.ceil((moveY - this.stepLength / 2) / this.stepLength) :
         Math.floor((moveY + this.stepLength / 2) / this.stepLength)
-      this.nextIndex = this.props.startIndex + indexStep;
+      this.nextIndex = this.props.startIndex + this.indexStep;
+
       // 修改视图
       this.setState({
-        moveY,
-        top: this.state.originTop + moveY,
-        indexStep
+        top: this.originTop + moveY
       })
     } else {
       return;
@@ -47,27 +47,22 @@ export class DragListItem extends Component {
   }
 
   handleMouseDown(e) {
-    this.setState({
-      moving: true,
-      startY: e.clientY,
-      originTop: this._getDomStyleNum(this.itemDom.current, "top"),
-      top: this._getDomStyleNum(this.itemDom.current, "top"),
-      zIndex: 999
-    });
+    this.moving = true;
+    this.zIndex = 999;
+    this.startY = e.clientY;
+    this.originTop = this._getDomStyleNum(this.itemDom.current, "top");
   }
 
   handleDragOver(e) {
-    if (this.state.indexStep != 0) {
+    if (this.indexStep !== 0) {
       this.props.parent.resort(this.props.startIndex, this.nextIndex);
     }
-    this.setState({
-      moving: false,
-      zIndex: 1,
-      top: 0,
-      startY: 0,
-      moveY: 0,
-      indexStep: 0
-    })
+    this.moving = false;
+    this.zIndex = 1;
+    this.startY = 0;
+    this.moveY = 0;
+    this.indexStep = 0;
+    this.setState({ top: 0 });
   }
 
   render() {
@@ -75,7 +70,7 @@ export class DragListItem extends Component {
       <div className="drag-list-item" ref={this.itemDom} style={{
         margin: `${this.props.spacing ? this.props.spacing : 0}px 0px`,
         top: this.state.top,
-        zIndex: this.state.zIndex
+        zIndex: this.zIndex
       }}>
         <div className="item-content">
           {this.props.data}

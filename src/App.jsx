@@ -12,7 +12,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<h3>这是一个拖拽列表dmon</h3>
+				<h3>这是一个拖拽列表demo</h3>
 				<DragList
 					data={this.state.data}
 					style={{ width: "300px" }}

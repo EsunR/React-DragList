@@ -19,7 +19,13 @@
     }
   }
 
-  .drag-list-item-move { 
-    
+  .move-down {
+    transition: all .5s ease;
+    transform: translateY(58px)
+  }
+
+  .move-up {
+    transition: all .5s ease;
+    transform: translateY(-58px)
   }
 }
