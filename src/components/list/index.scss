@@ -19,13 +19,15 @@
     }
   }
 
-  .move-down {
+  .animate {
     transition: all .5s ease;
+  }
+
+  .move-down {
     transform: translateY(58px)
   }
 
   .move-up {
-    transition: all .5s ease;
     transform: translateY(-58px)
   }
 }
